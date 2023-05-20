@@ -40,7 +40,7 @@ void medir_distancia() {
   Serial.print(distance);
   Serial.println(" cm");
 
-  if(distance >= 30){
+  if(30 >= distance){
     parar();
     delay(500);
     atras();
