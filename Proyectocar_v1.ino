@@ -1,7 +1,7 @@
 #include "ESP8266WiFi.h"
  
-const char* ssid = "rasJaveriana";
-const char* password =  "rasjaveriana2023";
+const char* ssid = "iPhone";
+const char* password =  "josoc2004";
  
 WiFiServer wifiServer(80);
 
@@ -17,11 +17,13 @@ const int speedPin1 = 14;     // Pin de velocidad del motor 1
 const int speedPin2 = 2;    // Pin de velocidad del motor 2
 
 //PWM motores
-const int velocidad_1 = 125;
-const int velocidad_2 = 125;
+const int velocidad_I = 160;
+const int velocidad_D = 140;
 
 //variables sensor distancia
 long duration, distance;
+
+unsigned long tiempoInicio;
 
 
 // Estados para el manejo de cada motor
@@ -67,8 +69,8 @@ void atras() {
   digitalWrite(motor1Pin2, HIGH);
   digitalWrite(motor2Pin1, HIGH);
   digitalWrite(motor2Pin2, LOW);
-  analogWrite(speedPin1, velocidad_1);
-  analogWrite(speedPin2, velocidad_2);
+  analogWrite(speedPin1, velocidad_I);
+  analogWrite(speedPin2, velocidad_D);
 }
 
 void adelante() {
@@ -76,8 +78,8 @@ void adelante() {
   digitalWrite(motor1Pin2, LOW);
   digitalWrite(motor2Pin1, LOW);
   digitalWrite(motor2Pin2, HIGH);
-  analogWrite(speedPin1, velocidad_1);
-  analogWrite(speedPin2, velocidad_2);
+  analogWrite(speedPin1, velocidad_I);
+  analogWrite(speedPin2, velocidad_D);
 }
 
 void izquierda() {
@@ -85,8 +87,8 @@ void izquierda() {
   digitalWrite(motor1Pin2, HIGH);
   digitalWrite(motor2Pin1, LOW);
   digitalWrite(motor2Pin2, HIGH);
-  analogWrite(speedPin1, velocidad_1);
-  analogWrite(speedPin2, velocidad_2);
+  analogWrite(speedPin1, velocidad_I);
+  analogWrite(speedPin2, velocidad_D);
 }
 
 void derecha() {
@@ -94,14 +96,14 @@ void derecha() {
   digitalWrite(motor1Pin2, LOW);
   digitalWrite(motor2Pin1, HIGH);
   digitalWrite(motor2Pin2, LOW);
-  analogWrite(speedPin1, velocidad_1);
-  analogWrite(speedPin2, velocidad_2);
+  analogWrite(speedPin1, velocidad_I);
+  analogWrite(speedPin2, velocidad_D);
 }
 
 void setup() {
 
 
-  Serial.begin(9600);
+  Serial.begin(115200);
   delay(200);  // Inicializar comunicación serial
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
@@ -169,24 +171,24 @@ void loop() {
 
       switch(direction){
         case ADELANTE:
-          adelante();
-        break;
-
+          adelante();                   
+          break;
         case ATRAS:
           atras();
-        break;
-
+          break;
         case IZQUIERDA:
           izquierda();
-        break;
-
+          delay(150);
+          direction=ADELANTE;
+          break;
         case DERECHA:
           derecha();
-        break;
-
+          delay(150);
+          direction=ADELANTE;
+          break;
         case PARAR:
           parar();
-        break;
+          break;
   
       }
 
