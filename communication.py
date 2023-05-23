@@ -6,7 +6,7 @@ from std_msgs.msg import Float32
 import sys, select, termios, tty
 
 
-HOST = "192.168.68.100"
+HOST = "172.20.10.3"
 PORT = 80
 
 s = socket.socket()
@@ -36,7 +36,6 @@ def moverRobot():
         else:
             dataSend = str(5.0)
             s.sendall(dataSend.encode())
-
     
 def getKey():
 	tty.setraw(sys.stdin.fileno())
